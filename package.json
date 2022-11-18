@@ -1,0 +1,19 @@
+{
+  "name": "uk.co.nyarducks",
+  "displayName": "AlmaXivBot",
+  "version": "1.0.0",
+  "description": "A Discord Bot for Alma FC Server.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "clean": "rmdir /s node_modules",
+    "upgrade": "yarn upgrade --latest",
+    "run:bot": "node ./src/index.js"
+  },
+  "dependencies": {
+    "@discordjs/builders": "^0.7.0",
+    "discord.js": "^13.2.0",
+    "dotenv": "^10.0.0",
+    "fs": "^0.0.1-security"
+  }
+}
