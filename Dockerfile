@@ -5,7 +5,7 @@ FROM node:16.9.0
 # update container machine
 # minimum install vim editor
 # remove apt cached data(reduce image size)
-RUN git clone https://github.com/Nyarducks/AlmaXivBot.git -b docker-develop /usr/AlmaXivBot \
+RUN git clone https://github.com/Nyarducks/AlmaXivBot.git -b develop /usr/AlmaXivBot \
  && apt-get update \
  && apt-get install -y --no-install-recommends \
     vim \
