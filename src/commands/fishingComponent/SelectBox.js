@@ -1,4 +1,4 @@
-import { MessageActionRow, MessageSelectMenu } from "discord.js";
+import { ActionRowBuilder, StringSelectMenuBuilder } from "discord.js";
 import { SelectMenuValues } from "../../constants.js";
 import { createCollector, secondsToMilliSeconds } from "../../utils/commonUtils.js";
 import{
@@ -17,8 +17,8 @@ export const selectBoxBuilder = (customId) => {
     )
     return (
         {
-            AreaSelectBox: new MessageActionRow().addComponents(
-                new MessageSelectMenu()
+            AreaSelectBox: new ActionRowBuilder().addComponents(
+                new StringSelectMenuBuilder()
                 .setCustomId(customId)
                 .setPlaceholder(voyageArea + '航海エリアが選択されていません')
                 .addOptions([

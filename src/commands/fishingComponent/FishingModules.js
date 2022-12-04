@@ -1,11 +1,11 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder  } from "discord.js";
 import { oceanFishingMacros } from "../../resources/common/oceanFishing/oceanFishingMacros.js";
 
 /**
  * @name emptyEmbedBuilder
  */
 export const emptyEmbedBuilder = () => {
-    return new MessageEmbed()
+    return new EmbedBuilder()
     .setTitle('**オーシャンフィッシングマクロ自動生成 v1.0**')
     .setDescription('**下記巡航ボタンから航海エリアを選択してください。\n1) 第一巡航：未選択\n2) 第二巡航：未選択\n3) 第三巡航：未選択**');
 };

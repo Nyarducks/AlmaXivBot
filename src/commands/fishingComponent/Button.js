@@ -1,24 +1,24 @@
-import { MessageActionRow, MessageButton } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder } from "discord.js";
 import { createCollector, secondsToMilliSeconds } from "../../utils/commonUtils.js";
 import { callSelectBoxEvent, callSendMacroEvent, callTimeoutEvent } from "./FishingComponentRender.js";
 
 /**
- * @name ButtonBuilder
+ * @name ButtonComponent
  */
-export const ButtonBuilder = () => {
+export const ButtonComponent = () => {
     return (
         {
-            initialButton: new MessageActionRow().addComponents(
-                new MessageButton().setCustomId('1st').setLabel('第一巡航').setStyle('PRIMARY'),
-                new MessageButton().setCustomId('2nd').setLabel('第二巡航').setStyle('DANGER'),
-                new MessageButton().setCustomId('3rd').setLabel('第三巡航').setStyle('PRIMARY'),
-                new MessageButton().setCustomId('export').setLabel('マクロ出力').setStyle('SUCCESS').setDisabled(true),
+            initialButton: new ActionRowBuilder().addComponents(
+                new ButtonBuilder().setCustomId('1st').setLabel('第一巡航').setStyle('Primary'),
+                new ButtonBuilder().setCustomId('2nd').setLabel('第二巡航').setStyle('Danger'),
+                new ButtonBuilder().setCustomId('3rd').setLabel('第三巡航').setStyle('Primary'),
+                new ButtonBuilder().setCustomId('export').setLabel('マクロ出力').setStyle('Success').setDisabled(true),
             ),
-            exportableButton: new MessageActionRow().addComponents(
-                new MessageButton().setCustomId('1st').setLabel('第一巡航').setStyle('PRIMARY'),
-                new MessageButton().setCustomId('2nd').setLabel('第二巡航').setStyle('DANGER'),
-                new MessageButton().setCustomId('3rd').setLabel('第三巡航').setStyle('PRIMARY'),
-                new MessageButton().setCustomId('export').setLabel('マクロ出力').setStyle('SUCCESS').setDisabled(false),
+            exportableButton: new ActionRowBuilder().addComponents(
+                new ButtonBuilder().setCustomId('1st').setLabel('第一巡航').setStyle('Primary'),
+                new ButtonBuilder().setCustomId('2nd').setLabel('第二巡航').setStyle('Danger'),
+                new ButtonBuilder().setCustomId('3rd').setLabel('第三巡航').setStyle('Primary'),
+                new ButtonBuilder().setCustomId('export').setLabel('マクロ出力').setStyle('Success').setDisabled(false),
             ),
         }
     );
