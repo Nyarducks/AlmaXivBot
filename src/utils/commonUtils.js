@@ -1,4 +1,10 @@
 /**
+ * @name useMultiText
+ * @param {string} context
+ */
+export const useMultiText = context => context.toString().match(/\/\*\n*([^]*)\*\//)[1].replace(/\n*$/, "")
+
+/**
  * @name removeExtensions
  * @param {string} fileName
  */
@@ -16,8 +22,12 @@ export const secondsToMilliSeconds = seconds => { return 1000 * seconds };
  * @param state
  * @param type
  */
- const filter = (state, type) => {
+export const customFilter = (state, type) => {
     switch (type){
+        case 'buttonEvent':
+            return buttonEvent => buttonEvent.customId && buttonEvent.user.id === state.userInfo.userId;
+        case 'selectBoxEvent':
+            return selectBoxEvent => selectBoxEvent.customId && selectBoxEvent.user.id === state.userInfo.userId;
         case 'inputMessageEvent':
             return inputMessageEvent => inputMessageEvent.author.id === state.userInfo.userId;
         default:
@@ -33,8 +43,11 @@ export const secondsToMilliSeconds = seconds => { return 1000 * seconds };
  */
 export const createCollector = (interaction, state, type) => {
     switch (type) {
+        case 'buttonEvent':
+        case 'selectBoxEvent':
+            return interaction.channel.createMessageComponentCollector(customFilter(state, type));
         case 'inputMessageEvent':
-            return interaction.channel.createMessageCollector({filter: filter(state, type)});
+            return interaction.channel.createMessageCollector({filter: customFilter(state, type)});
         default:
             return console.error('createCollector has errors');
     }
