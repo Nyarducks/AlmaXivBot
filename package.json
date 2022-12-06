@@ -6,9 +6,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "clean": "rmdir /s node_modules",
+    "clean": "rm -r node_modules",
     "upgrade": "yarn upgrade --latest",
-    "run:bot": "node ./src/index.js"
+    "run:bot": "TZ=Asia/Tokyo node ./src/index.js"
   },
   "dependencies": {
     "@discordjs/builders": "^0.7.0",

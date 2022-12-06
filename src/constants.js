@@ -24,7 +24,7 @@ export const Permission = {
     BloodbrineSea: '緋汐海',
     RothlytSound: 'ロズリト湾',
  }
- 
+
  export const SelectMenuValues = {
     // ガラディオン湾
     SetMacroGaladionBay_noon: oceanFishingArea.GaladionBay + _noon,
