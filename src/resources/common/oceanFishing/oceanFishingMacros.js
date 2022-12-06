@@ -1,6 +1,30 @@
 import { useMultiText } from "../../../utils/commonUtils.js"
 
 /**
+ * @name マクロテンプレート
+ */
+
+// 通常時
+export const macroTemplate = (function() {/*
+**ロズリト湾行き マクロ v1.1**
+> macroname：オーシャンフィッシング1
+```
+/cwl3 オーシャンフィッシング 第一巡航
+/cwl3 ${firstMacro}
+```
+> macroname：オーシャンフィッシング2
+```
+オーシャンフィッシング 第二巡航
+
+```
+> macroname：オーシャンフィッシング3
+```
+/cwl3 オーシャンフィッシング 第三巡航
+
+```
+*/})
+
+/**
  * @name ガラディオン湾マクロ
  */
 
