@@ -1,14 +1,6 @@
-import { EmbedBuilder  } from "discord.js";
 import { oceanFishingMacros } from "../../resources/common/oceanFishing/oceanFishingMacros.js";
-
-/**
- * @name emptyEmbedBuilder
- */
-export const emptyEmbedBuilder = () => {
-    return new EmbedBuilder()
-    .setTitle('**オーシャンフィッシングマクロ自動生成 v1.0**')
-    .setDescription('**下記巡航ボタンから航海エリアを選択してください。\n1) 第一巡航：未選択\n2) 第二巡航：未選択\n3) 第三巡航：未選択**');
-};
+import { oceanFishingRoutes, oceanFishingRoutePatterns } from "../../resources/common/oceanFishing/oceanFishingRoutes.js";
+import { dateUtil, MONTH_OFFSET } from "../../utils/commonUtils.js";
 
 /**
  * @name getOceanFishingMacros
@@ -18,9 +10,9 @@ export const getOceanFishingMacros = (state) => {
     const _noon = '[昼]';
     const _evening = '[夕]';
     const _night = '[夜]';
-    const firstSailing = state.embed.voyageSelection.firstSailing;
-    const secondSailing = state.embed.voyageSelection.secondSailing;
-    const thirdSailing = state.embed.voyageSelection.thirdSailing;
+    const firstSailing = state.oceanFishing.voyageSelection.firstSailing;
+    const secondSailing = state.oceanFishing.voyageSelection.secondSailing;
+    const thirdSailing = state.oceanFishing.voyageSelection.thirdSailing;
 
     let firstMacro = '';
     let secondMacro = '';
@@ -29,7 +21,7 @@ export const getOceanFishingMacros = (state) => {
     for (const count of ['first', 'second', 'third']){
         const sailingOrder = (count === 'first' ? firstSailing : count === 'second' ? secondSailing : count === 'third' ? thirdSailing : '')
         switch (sailingOrder.slice( 0, -3 )) {
-            case 'ガラディオン湾': 
+            case 'ガラディオン湾':
                 if (count === 'first') firstMacro = oceanFishingMacros.GaladionBay.normal
                 if (count === 'second') secondMacro = oceanFishingMacros.GaladionBay.normal
                 if (count === 'second') thirdMacro = oceanFishingMacros.GaladionBay.normal
@@ -51,10 +43,10 @@ export const getOceanFishingMacros = (state) => {
                     break;
                 }
                 break;
-            case 'メルトール海峡南': 
+            case 'メルトール海峡南':
                 if (count === 'first') firstMacro = oceanFishingMacros.TheSouthernStraitofMerlthor.normal
                 if (count === 'second') secondMacro = oceanFishingMacros.TheSouthernStraitofMerlthor.normal
-                if (count === 'second') thirdMacro = oceanFishingMacros.TheSouthernStraitofMerlthor.normal
+                if (count === 'third') thirdMacro = oceanFishingMacros.TheSouthernStraitofMerlthor.normal
                 if (sailingOrder.slice(-3) === _noon) {
                     if (count === 'first') firstMacro = firstMacro + '\n' + oceanFishingMacros.TheSouthernStraitofMerlthor.noon
                     if (count === 'second') secondMacro = secondMacro + '\n' + oceanFishingMacros.TheSouthernStraitofMerlthor.noon
@@ -67,15 +59,15 @@ export const getOceanFishingMacros = (state) => {
                     break;
                 } else if (sailingOrder.slice(-3) === _night) {
                     if (count === 'first') firstMacro = firstMacro + '\n' + oceanFishingMacros.TheSouthernStraitofMerlthor.night
-                    if (count === 'second') secondMacro = secondMacro + '\n' + oceanFishingMacros.heSouthernStraitofMerlthor.night
-                    if (count === 'third') thirdMacro = thirdMacro + '\n' + oceanFishingMacros.heSouthernStraitofMerlthor.night
+                    if (count === 'second') secondMacro = secondMacro + '\n' + oceanFishingMacros.TheSouthernStraitofMerlthor.night
+                    if (count === 'third') thirdMacro = thirdMacro + '\n' + oceanFishingMacros.TheSouthernStraitofMerlthor.night
                     break;
                 }
                 break;
-            case 'メルトール海峡北': 
+            case 'メルトール海峡北':
                 if (count === 'first') firstMacro = oceanFishingMacros.TheNorthernStraitofMerlthor.normal
                 if (count === 'second') secondMacro = oceanFishingMacros.TheNorthernStraitofMerlthor.normal
-                if (count === 'second') thirdMacro = oceanFishingMacros.TheNorthernStraitofMerlthor.normal
+                if (count === 'third') thirdMacro = oceanFishingMacros.TheNorthernStraitofMerlthor.normal
                 if (sailingOrder.slice(-3) === _noon) {
                     if (count === 'first') firstMacro = firstMacro + '\n' + oceanFishingMacros.TheNorthernStraitofMerlthor.noon
                     if (count === 'second') secondMacro = secondMacro + '\n' + oceanFishingMacros.TheNorthernStraitofMerlthor.noon
@@ -93,10 +85,10 @@ export const getOceanFishingMacros = (state) => {
                     break;
                 }
                 break;
-            case 'ロータノ海': 
+            case 'ロータノ海':
                 if (count === 'first') firstMacro = oceanFishingMacros.RhotanoSea.normal
                 if (count === 'second') secondMacro = oceanFishingMacros.RhotanoSea.normal
-                if (count === 'second') thirdMacro = oceanFishingMacros.RhotanoSea.normal
+                if (count === 'third') thirdMacro = oceanFishingMacros.RhotanoSea.normal
                 if (sailingOrder.slice(-3) === _noon) {
                     if (count === 'first') firstMacro = firstMacro + '\n' + oceanFishingMacros.RhotanoSea.noon
                     if (count === 'second') secondMacro = secondMacro + '\n' + oceanFishingMacros.RhotanoSea.noon
@@ -114,10 +106,10 @@ export const getOceanFishingMacros = (state) => {
                     break;
                 }
                 break;
-            case 'シェルダレー諸島': 
+            case 'シェルダレー諸島':
                 if (count === 'first') firstMacro = oceanFishingMacros.TheCieldalaes.normal
                 if (count === 'second') secondMacro = oceanFishingMacros.TheCieldalaes.normal
-                if (count === 'second') thirdMacro = oceanFishingMacros.TheCieldalaes.normal
+                if (count === 'third') thirdMacro = oceanFishingMacros.TheCieldalaes.normal
                 if (sailingOrder.slice(-3) === _noon) {
                     if (count === 'first') firstMacro = firstMacro + '\n' + oceanFishingMacros.TheCieldalaes.noon
                     if (count === 'second') secondMacro = secondMacro + '\n' + oceanFishingMacros.TheCieldalaes.noon
@@ -135,10 +127,10 @@ export const getOceanFishingMacros = (state) => {
                     break;
                 }
                 break;
-            case '緋汐海': 
+            case '緋汐海':
                 if (count === 'first') firstMacro = oceanFishingMacros.BloodbrineSea.normal
                 if (count === 'second') secondMacro = oceanFishingMacros.BloodbrineSea.normal
-                if (count === 'second') thirdMacro = oceanFishingMacros.BloodbrineSea.normal
+                if (count === 'third') thirdMacro = oceanFishingMacros.BloodbrineSea.normal
                 if (sailingOrder.slice(-3) === _noon) {
                     if (count === 'first') firstMacro = firstMacro + '\n' + oceanFishingMacros.BloodbrineSea.noon
                     if (count === 'second') secondMacro = secondMacro + '\n' + oceanFishingMacros.BloodbrineSea.noon
@@ -156,10 +148,10 @@ export const getOceanFishingMacros = (state) => {
                     break;
                 }
                 break;
-            case 'ロズリト湾': 
+            case 'ロズリト湾':
                 if (count === 'first') firstMacro = oceanFishingMacros.RothlytSound.normal
                 if (count === 'second') secondMacro = oceanFishingMacros.RothlytSound.normal
-                if (count === 'second') thirdMacro = oceanFishingMacros.RothlytSound.normal
+                if (count === 'third') thirdMacro = oceanFishingMacros.RothlytSound.normal
                 if (sailingOrder.slice(-3) === _noon) {
                     if (count === 'first') firstMacro = firstMacro + '\n' + oceanFishingMacros.RothlytSound.noon
                     if (count === 'second') secondMacro = secondMacro + '\n' + oceanFishingMacros.RothlytSound.noon
@@ -184,7 +176,7 @@ export const getOceanFishingMacros = (state) => {
 
     const obj = {
         // オーシャンフィッシング行き先取得
-        thirdSailing: state.embed.voyageSelection.thirdSailing,
+        thirdSailing: state.oceanFishing.voyageSelection.thirdSailing,
         // 第一マクロ
         firstMacro: firstMacro,
         // 第二マクロ
@@ -193,4 +185,69 @@ export const getOceanFishingMacros = (state) => {
         thirdMacro: thirdMacro,
     }
     return obj;
-}
+};
+
+/**
+ * @name getOceanFishingTimeZone
+ */
+export const getOceanFishingTimeZone = () => {
+    // 当日のオーシャンフィッシング締め切り時間(LT23:15まで)
+    const isUptime = Number(dateUtil.Hours.toString() + dateUtil.Minutes.toString()) > 2315;
+    return isUptime;
+};
+
+/**
+ * @name getOceanFishingSchedule
+ */
+export const getOceanFishingSchedule = () => {
+    const oceanFishingScheduleList = [];
+    // 本日の奇数時間のみ取得して処理する
+    // 現在時刻から24時間引いて処理する
+    let hourUp = 0;
+    for(let hoursIndex = dateUtil.Hours; hoursIndex < 24; hoursIndex++) {
+        const _hours = dateUtil.Hours + hourUp++;
+
+        // 条件・１：奇数時のみ
+        // 条件・２：24時を超えていない(以降翌日のスケジュール)
+        if(_hours % 2 !== 0  && _hours < 24) {
+            // 条件：最新1件目の運航予定がLT15分を超えていないこと
+            if (hourUp === 1 && dateUtil.Minutes > 15) continue;
+            // TODO console.info(`${hoursIndex}回目：${_hours}時`);
+            // 日付計算
+            const scheduleTime = (
+                new Date(Number(dateUtil.Year),
+                Number(dateUtil.Month - MONTH_OFFSET),
+                Number(dateUtil.Date),
+                Number(_hours),
+            ));
+            // 基準日を 2022/12/01に設定
+            const baseDate = new Date(2022, 12 - MONTH_OFFSET, 1);
+            let timeDiff = scheduleTime - baseDate;
+            let days = Math.floor(timeDiff / (24 * 60 * 60 * 1000));
+
+            let index = days % 12 + Math.floor(_hours / 2);
+            if(index >= 12) index = index -12;
+            const pattern = oceanFishingRoutePatterns[index];
+
+            let routeInfo = [];
+            for(let routesIndex = 0; routesIndex <= oceanFishingRoutes.route.length; routesIndex++) {
+                if(oceanFishingRoutes.route[routesIndex].pattern == pattern) {
+                    routeInfo = oceanFishingRoutes.route[routesIndex];
+                    break;
+                };
+            };
+
+            const obj = {
+                localTime: _hours + ':00',
+                destination: routeInfo.destination,
+                firstRoute: {route: routeInfo.route1.area, timezone: routeInfo.route1.time_zone},
+                secondRoute: {route: routeInfo.route2.area, timezone: routeInfo.route2.time_zone},
+                thirdRoute: {route: routeInfo.route3.area, timezone: routeInfo.route3.time_zone},
+            };
+
+            // 運航表リストに追加
+            oceanFishingScheduleList.push(obj);
+        };
+    };
+    return oceanFishingScheduleList;
+};

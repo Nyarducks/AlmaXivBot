@@ -1,142 +1,39 @@
-import { ActionRowBuilder, StringSelectMenuBuilder } from "discord.js";
-import { SelectMenuValues } from "../../constants.js";
+import { MessageActionRow, MessageSelectMenu } from "discord.js";
+import { BUTTON_GET_VOYAGE_ROUTE_ID } from "../../actions/fishingAction.js";
 import { createCollector, secondsToMilliSeconds } from "../../utils/commonUtils.js";
 import{
     callTimeoutEvent,
     callChangeVoyageSelectionEvent,
 } from "./FishingComponentRender.js";
+import { getOceanFishingSchedule } from "./FishingModules.js";
 
 /**
  * @name selectBoxBuilder
  */
 export const selectBoxBuilder = (customId) => {
-    const voyageArea = (
-        customId === '1st' ? '第一'
-        : customId === '2nd' ? '第二'
-        : customId === '3rd' ? '第三' : ''
-    )
-    return (
-        {
-            AreaSelectBox: new ActionRowBuilder().addComponents(
-                new StringSelectMenuBuilder()
+    /**
+     * 航海エリア一覧
+     */
+    if (customId === BUTTON_GET_VOYAGE_ROUTE_ID) {
+        // 航海エリア一覧取得
+        const oceanFishingSchedules = getOceanFishingSchedule();
+        return (
+            new MessageActionRow().addComponents(
+                new MessageSelectMenu()
                 .setCustomId(customId)
-                .setPlaceholder(voyageArea + '航海エリアが選択されていません')
-                .addOptions([
-                    {
-                        label: 'ガラディオン湾[昼]',
-                        description: '時間帯：昼',
-                        value: SelectMenuValues.SetMacroGaladionBay_noon,
-                    },
-                    {
-                        label: 'ガラディオン湾[夕]',
-                        description: '時間帯：夕',
-                        value: SelectMenuValues.SetMacroGaladionBay_evening,
-                    },
-                    {
-                        label: 'ガラディオン湾[夜]',
-                        description: '時間帯：夜',
-                        value: SelectMenuValues.SetMacroGaladionBay_night,
-                    },
-                ]).addOptions([
-                    {
-                        label: 'メルトール海峡南[昼]',
-                        description: '時間帯：昼',
-                        value: SelectMenuValues.SetMacroTheSouthernStraitofMerlthor_noon,
-                    },
-                    {
-                        label: 'メルトール海峡南[夕]',
-                        description: '時間帯：夕',
-                        value: SelectMenuValues.SetMacroTheSouthernStraitofMerlthor_evening,
-                    },
-                    {
-                        label: 'メルトール海峡南[夜]',
-                        description: '時間帯：夜',
-                        value: SelectMenuValues.SetMacroTheSouthernStraitofMerlthor_night,
-                    },
-                ]).addOptions([
-                    {
-                        label: 'メルトール海峡北[昼]',
-                        description: '時間帯：昼',
-                        value: SelectMenuValues.SetMacroTheNorthernStraitofMerlthor_noon,
-                    },
-                    {
-                        label: 'メルトール海峡北[夕]',
-                        description: '時間帯：夕',
-                        value: SelectMenuValues.SetMacroTheNorthernStraitofMerlthor_evening,
-                    },
-                    {
-                        label: 'メルトール海峡北[夜]',
-                        description: '時間帯：夜',
-                        value: SelectMenuValues.SetMacroTheNorthernStraitofMerlthor_night,
-                    },
-                ]).addOptions([
-                    {
-                        label: 'ロータノ海[昼]',
-                        description: '時間帯：昼',
-                        value: SelectMenuValues.SetMacroRhotanoSea_noon,
-                    },
-                    {
-                        label: 'ロータノ海[夕]',
-                        description: '時間帯：夕',
-                        value: SelectMenuValues.SetMacroRhotanoSea_evening,
-                    },
-                    {
-                        label: 'ロータノ海[夜]',
-                        description: '時間帯：夜',
-                        value: SelectMenuValues.SetMacroRhotanoSea_night,
-                    },
-                ]).addOptions([
-                    {
-                        label: 'シェルダレー諸島[昼]',
-                        description: '時間帯：昼',
-                        value: SelectMenuValues.SetMacroTheCieldalaes_noon,
-                    },
-                    {
-                        label: 'シェルダレー諸島[夕]',
-                        description: '時間帯：夕',
-                        value: SelectMenuValues.SetMacroTheCieldalaes_evening,
-                    },
-                    {
-                        label: 'シェルダレー諸島[夜]',
-                        description: '時間帯：夜',
-                        value: SelectMenuValues.SetMacroTheCieldalaes_night,
-                    },
-                ]).addOptions([
-                    {
-                        label: '緋汐海[昼]',
-                        description: '時間帯：昼',
-                        value: SelectMenuValues.SetMacroBloodbrineSea_noon,
-                    },
-                    {
-                        label: '緋汐海[夕]',
-                        description: '時間帯：夕',
-                        value: SelectMenuValues.SetMacroBloodbrineSea_evening,
-                    },
-                    {
-                        label: '緋汐海[夜]',
-                        description: '時間帯：夜',
-                        value: SelectMenuValues.SetMacroBloodbrineSea_night,
-                    },
-                ]).addOptions([
-                    {
-                        label: 'ロズリト湾[昼]',
-                        description: '時間帯：昼',
-                        value: SelectMenuValues.SetMacroRothlytSound_noon,
-                    },
-                    {
-                        label: 'ロズリト湾[夕]',
-                        description: '時間帯：夕',
-                        value: SelectMenuValues.SetMacroRothlytSound_evening,
-                    },
-                    {
-                        label: 'ロズリト湾[夜]',
-                        description: '時間帯：夜',
-                        value: SelectMenuValues.SetMacroRothlytSound_night,
-                    },
-                ]),
-            ),
-        }
-    );
+                .setPlaceholder('航海エリアを選択してください')
+                .addOptions(
+                    oceanFishingSchedules.map((item, i) => {
+                        return {
+                            label: `LT${item.localTime} ${item.destination}行き [${item.firstRoute?.timezone} → ${item.secondRoute?.timezone} → ${item.thirdRoute?.timezone}]`,
+                            description: `${item.firstRoute.route} → ${item.secondRoute.route} → ${item.thirdRoute.route}`,
+                            value: `${i},${item.destination},${`${item.firstRoute.route}[${item.firstRoute.timezone}]`},${`${item.secondRoute.route}[${item.secondRoute.timezone}]`},${`${item.thirdRoute.route}[${item.thirdRoute.timezone}]`}`
+                        };
+                    }),
+                ),
+            )
+        );
+    };
 };
 
 /**
@@ -178,25 +75,16 @@ export const SelectBoxComponent = async (interaction, state) => {
         /**
          * セレクトボックスで選択された値から、stateの埋め込みメッセージオブジェクトの編集モードを設定する
          */
-        const firstSailing = state.embed.voyageSelection.firstSailing
-        const secondSailing = state.embed.voyageSelection.secondSailing
-        const thirdSailing = state.embed.voyageSelection.thirdSailing
         switch (selectBoxEvent.customId) {
-            case '1st':
-                state.embed.voyageSelection.firstSailing = selectBoxEvent.values[0];
-                state.embed.initialEmbed.setDescription(`**下記巡航ボタンから航海エリアを選択してください。\n1) 第一巡航：${selectBoxEvent.values[0] !== '' ? selectBoxEvent.values[0] : '未選択'}\n2) 第二巡航：${secondSailing !== '' ? secondSailing : '未選択'}\n3) 第三巡航：${thirdSailing !== '' ? thirdSailing : '未選択'}**`);
-                await callChangeVoyageSelectionEvent(interaction, selectBoxEvent, state);
-                if (state.logger) console.error('callChangeVoyageSelectionEvent[start]');
-                break;
-            case '2nd':
-                state.embed.voyageSelection.secondSailing = selectBoxEvent.values[0];
-                state.embed.initialEmbed.setDescription(`**下記巡航ボタンから航海エリアを選択してください。\n1) 第一巡航：${firstSailing !== '' ? firstSailing : '未選択'}\n2) 第二巡航：${selectBoxEvent.values[0] !== '' ? selectBoxEvent.values[0] : '未選択'}\n3) 第三巡航：${thirdSailing !== '' ? thirdSailing : '未選択'}**`);
-                await callChangeVoyageSelectionEvent(interaction, selectBoxEvent, state);
-                if (state.logger) console.error('callChangeVoyageSelectionEvent[start]');
-                break;
-            case '3rd':
-                state.embed.voyageSelection.thirdSailing = selectBoxEvent.values[0];
-                state.embed.initialEmbed.setDescription(`**下記巡航ボタンから航海エリアを選択してください。\n1) 第一巡航：${firstSailing !== '' ? firstSailing : '未選択'}\n2) 第二巡航：${secondSailing !== '' ? secondSailing : '未選択'}\n3) 第三巡航：${selectBoxEvent.values[0] !== '' ? selectBoxEvent.values[0] : '未選択'}**`);
+            /**
+             * 航路取得した時、航海エリア選択状態更新処理を呼び出す
+             */
+            case BUTTON_GET_VOYAGE_ROUTE_ID:
+                // returns comma-separated string => unique_Id, destination, firstRoute[timezone], secondRoute[timezone], thirdRoute[timezone]
+                state.oceanFishing.voyageSelection.destination = selectBoxEvent.values[0].split(',')[1];
+                state.oceanFishing.voyageSelection.firstSailing = selectBoxEvent.values[0].split(',')[2];
+                state.oceanFishing.voyageSelection.secondSailing = selectBoxEvent.values[0].split(',')[3];
+                state.oceanFishing.voyageSelection.thirdSailing = selectBoxEvent.values[0].split(',')[4];
                 await callChangeVoyageSelectionEvent(interaction, selectBoxEvent, state);
                 if (state.logger) console.error('callChangeVoyageSelectionEvent[start]');
                 break;
