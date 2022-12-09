@@ -203,16 +203,16 @@ export const getOceanFishingSchedule = () => {
     const oceanFishingScheduleList = [];
     // 本日の奇数時間のみ取得して処理する
     // 現在時刻から24時間引いて処理する
-    let hourUp = 1;
-    for(let i = 0; i <= (24 - dateUtil.Hours); i++) {
+    let hourUp = 0;
+    for(let hoursIndex = dateUtil.Hours; hoursIndex < 24; hoursIndex++) {
         const _hours = dateUtil.Hours + hourUp++;
-        // TODO 未対応
-        // 条件：最新1件目の運航予定がLT15分を超えていないこと
-        // dateUtil.Minutes < 15
 
         // 条件・１：奇数時のみ
         // 条件・２：24時を超えていない(以降翌日のスケジュール)
         if(_hours % 2 !== 0  && _hours < 24) {
+            // 条件：最新1件目の運航予定がLT15分を超えていないこと
+            if (hourUp === 1 && dateUtil.Minutes > 15) continue;
+            // TODO console.info(`${hoursIndex}回目：${_hours}時`);
             // 日付計算
             const scheduleTime = (
                 new Date(Number(dateUtil.Year),
@@ -230,9 +230,9 @@ export const getOceanFishingSchedule = () => {
             const pattern = oceanFishingRoutePatterns[index];
 
             let routeInfo = [];
-            for(let j = 0; j <= oceanFishingRoutes.route.length; j++) {
-                if(oceanFishingRoutes.route[j].pattern == pattern) {
-                    routeInfo = oceanFishingRoutes.route[j];
+            for(let routesIndex = 0; routesIndex <= oceanFishingRoutes.route.length; routesIndex++) {
+                if(oceanFishingRoutes.route[routesIndex].pattern == pattern) {
+                    routeInfo = oceanFishingRoutes.route[routesIndex];
                     break;
                 };
             };
