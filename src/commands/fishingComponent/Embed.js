@@ -1,4 +1,4 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { EMBED_DELETABLE_MACRO_ID, EMBED_EXPORTABLE_MACRO_ID, EMBED_INIT_ID, EMBED_NO_SCHEDULES_ID } from "../../actions/fishingAction.js";
 import { dateUtil } from "../../utils/commonUtils.js";
 
@@ -12,7 +12,7 @@ import { dateUtil } from "../../utils/commonUtils.js";
     if (customId === EMBED_INIT_ID) {
         // 航海エリア一覧取得
         return (
-            new MessageEmbed()
+            new EmbedBuilder()
             .setTitle('**オーシャンフィッシング運航表**')
             .setDescription(
                 `**航路取得ボタンからスケジュールを選択してください。
