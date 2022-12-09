@@ -1,4 +1,4 @@
-import { MessageActionRow, MessageSelectMenu } from "discord.js";
+import { ActionRowBuilder, StringSelectMenuBuilder } from "discord.js";
 import { BUTTON_GET_VOYAGE_ROUTE_ID } from "../../actions/fishingAction.js";
 import { createCollector, secondsToMilliSeconds } from "../../utils/commonUtils.js";
 import{
@@ -18,8 +18,8 @@ export const selectBoxBuilder = (customId) => {
         // 航海エリア一覧取得
         const oceanFishingSchedules = getOceanFishingSchedule();
         return (
-            new MessageActionRow().addComponents(
-                new MessageSelectMenu()
+            new ActionRowBuilder().addComponents(
+                new StringSelectMenuBuilder()
                 .setCustomId(customId)
                 .setPlaceholder('航海エリアを選択してください')
                 .addOptions(
@@ -71,7 +71,7 @@ export const SelectBoxComponent = async (interaction, state) => {
          * タイムアウトした時はセレクトボックスオブジェクトが0件の為処理しない
          */
         if (selectBoxEventMap.size === 0) return;
-        const selectBoxEvent = selectBoxEventMap.reduce();
+        const selectBoxEvent = selectBoxEventMap.first();
         /**
          * セレクトボックスで選択された値から、stateの埋め込みメッセージオブジェクトの編集モードを設定する
          */

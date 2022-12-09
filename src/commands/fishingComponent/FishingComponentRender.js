@@ -1,5 +1,5 @@
 import { BUTTON_DELETE_MACROS_ID, BUTTON_EXPORT_MACROS_ID, BUTTON_GET_VOYAGE_ROUTE_ID, EMBED_DELETABLE_MACRO_ID, EMBED_EXPORTABLE_MACRO_ID, EMBED_INIT_ID, EMBED_NO_SCHEDULES_ID } from "../../actions/fishingAction.js";
-import { ButtonBuilder, ButtonEventComponent } from "./Button.js";
+import { FishingButtonBuilder, ButtonEventComponent } from "./Button.js";
 import { embedMessageBuilder } from "./Embed.js";
 import { getOceanFishingMacros } from "./FishingModules.js";
 import { selectBoxBuilder, SelectBoxComponent } from "./SelectBox.js";
@@ -36,7 +36,7 @@ export const callButtonEvent = async (interaction, state) => {
      */
 
     // ボタンインターフェースを作成する
-    state.buttonAction = ButtonBuilder(BUTTON_GET_VOYAGE_ROUTE_ID, state);
+    state.buttonAction = FishingButtonBuilder(BUTTON_GET_VOYAGE_ROUTE_ID, state);
 
     // 航海スケジュールフラグが有効時のみ、航海スケジュール利用不可状態に更新する(埋め込みメッセージ)
     if (state.oceanFishing.scheduleUpTimeFlag) state.embed = embedMessageBuilder(EMBED_NO_SCHEDULES_ID, state);
@@ -110,10 +110,10 @@ export const callGetVoyageSchedulesEvent = async (interaction, buttonClickEvent,
         // 埋め込みメッセージをマクロ出力可能状態に更新する
         state.embed = embedMessageBuilder(EMBED_EXPORTABLE_MACRO_ID, state);
         // 航路選択状態の場合はマクロボタンを活性にする
-        state.buttonAction = ButtonBuilder(BUTTON_EXPORT_MACROS_ID, state);
+        state.buttonAction = FishingButtonBuilder(BUTTON_EXPORT_MACROS_ID, state);
     } else {
         // 航路未選択状態の場合はマクロボタンを非活性にする
-        state.buttonAction = ButtonBuilder(BUTTON_GET_VOYAGE_ROUTE_ID, state);
+        state.buttonAction = FishingButtonBuilder(BUTTON_GET_VOYAGE_ROUTE_ID, state);
     };
 
     // 航海スケジュールフラグが有効時のみ、航海スケジュール利用不可状態に更新する(埋め込みメッセージ)
@@ -163,7 +163,7 @@ export const callSendMacroEvent = async (interaction, buttonClickEvent, state) =
         thirdMacroFooter: "```",
     };
     // マクロ出力ボタンを非活性かつマクロ削除ボタンを活性にする
-    state.buttonAction = ButtonBuilder(BUTTON_DELETE_MACROS_ID, state);
+    state.buttonAction = FishingButtonBuilder(BUTTON_DELETE_MACROS_ID, state);
 
     // 埋め込みメッセージをマクロ削除可能状態に更新する
     state.embed = embedMessageBuilder(EMBED_DELETABLE_MACRO_ID, state);
@@ -201,7 +201,7 @@ export const callSendMacroEvent = async (interaction, buttonClickEvent, state) =
      */
 
     // マクロ出力ボタンを非活性かつマクロ削除ボタンを活性にする
-    state.buttonAction = ButtonBuilder(BUTTON_EXPORT_MACROS_ID, state);
+    state.buttonAction = FishingButtonBuilder(BUTTON_EXPORT_MACROS_ID, state);
 
     // 埋め込みメッセージをマクロ出力可能状態に更新する
     state.embed = embedMessageBuilder(EMBED_EXPORTABLE_MACRO_ID, state);
