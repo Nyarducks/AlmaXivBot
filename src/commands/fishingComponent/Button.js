@@ -1,13 +1,13 @@
-import { MessageActionRow, MessageButton } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder } from "discord.js";
 import { BUTTON_DELETE_MACROS_ID, BUTTON_DELETE_MACROS_LABEL, BUTTON_EXPORT_MACROS_ID, BUTTON_EXPORT_MACROS_LABEL, BUTTON_FINISH_TASK_ID, BUTTON_FINISH_TASK_LABEL, BUTTON_GET_VOYAGE_ROUTE_ID, BUTTON_GET_VOYAGE_ROUTE_LABEL } from "../../actions/fishingAction.js";
 import { buttonStyles, createCollector, secondsToMilliSeconds } from "../../utils/commonUtils.js";
 import { callDeleteMacroEvent, callFinishTaskEvent, callGetVoyageSchedulesEvent, callSendMacroEvent, callTimeoutEvent } from "./FishingComponentRender.js";
 import { getOceanFishingTimeZone } from "./FishingModules.js";
 
 /**
- * @name ButtonBuilder
+ * @name ButtonComponent
  */
- export const ButtonBuilder = (customId, state) => {
+ export const FishingButtonBuilder = (customId, state) => {
     /**
      * 初期画面ボタンインターフェース
      * ・航路取得(航海スケジュール利用不可フラグが有効の時のみ非活性)
@@ -18,10 +18,10 @@ import { getOceanFishingTimeZone } from "./FishingModules.js";
         // 航海スケジュール利用不可フラグ取得
         state.oceanFishing.scheduleUpTimeFlag = getOceanFishingTimeZone();
         return (
-            new MessageActionRow().addComponents(
-                new MessageButton().setCustomId(BUTTON_GET_VOYAGE_ROUTE_ID).setLabel(BUTTON_GET_VOYAGE_ROUTE_LABEL).setStyle(buttonStyles.BLUE).setDisabled(state.oceanFishing.scheduleUpTimeFlag),
-                new MessageButton().setCustomId(BUTTON_EXPORT_MACROS_ID).setLabel(BUTTON_EXPORT_MACROS_LABEL).setStyle(buttonStyles.GREEN).setDisabled(true),
-                new MessageButton().setCustomId(BUTTON_FINISH_TASK_ID).setLabel(BUTTON_FINISH_TASK_LABEL).setStyle(buttonStyles.RED),
+            new ActionRowBuilder().addComponents(
+                new ButtonBuilder().setCustomId(BUTTON_GET_VOYAGE_ROUTE_ID).setLabel(BUTTON_GET_VOYAGE_ROUTE_LABEL).setStyle(buttonStyles.BLUE).setDisabled(state.oceanFishing.scheduleUpTimeFlag),
+                new ButtonBuilder().setCustomId(BUTTON_EXPORT_MACROS_ID).setLabel(BUTTON_EXPORT_MACROS_LABEL).setStyle(buttonStyles.GREEN).setDisabled(true),
+                new ButtonBuilder().setCustomId(BUTTON_FINISH_TASK_ID).setLabel(BUTTON_FINISH_TASK_LABEL).setStyle(buttonStyles.RED),
             )
         );
     };
@@ -36,10 +36,10 @@ import { getOceanFishingTimeZone } from "./FishingModules.js";
         // 航海スケジュール利用不可フラグ取得
         state.oceanFishing.scheduleUpTimeFlag = getOceanFishingTimeZone();
         return (
-            new MessageActionRow().addComponents(
-                new MessageButton().setCustomId(BUTTON_GET_VOYAGE_ROUTE_ID).setLabel(BUTTON_GET_VOYAGE_ROUTE_LABEL).setStyle(buttonStyles.BLUE).setDisabled(state.oceanFishing.scheduleUpTimeFlag),
-                new MessageButton().setCustomId(BUTTON_EXPORT_MACROS_ID).setLabel(BUTTON_EXPORT_MACROS_LABEL).setStyle(buttonStyles.GREEN).setDisabled(false),
-                new MessageButton().setCustomId(BUTTON_FINISH_TASK_ID).setLabel(BUTTON_FINISH_TASK_LABEL).setStyle(buttonStyles.RED),
+            new ActionRowBuilder().addComponents(
+                new ButtonBuilder().setCustomId(BUTTON_GET_VOYAGE_ROUTE_ID).setLabel(BUTTON_GET_VOYAGE_ROUTE_LABEL).setStyle(buttonStyles.BLUE).setDisabled(state.oceanFishing.scheduleUpTimeFlag),
+                new ButtonBuilder().setCustomId(BUTTON_EXPORT_MACROS_ID).setLabel(BUTTON_EXPORT_MACROS_LABEL).setStyle(buttonStyles.GREEN).setDisabled(false),
+                new ButtonBuilder().setCustomId(BUTTON_FINISH_TASK_ID).setLabel(BUTTON_FINISH_TASK_LABEL).setStyle(buttonStyles.RED),
             )
         );
     };
@@ -53,11 +53,11 @@ import { getOceanFishingTimeZone } from "./FishingModules.js";
      */
      if (customId === BUTTON_DELETE_MACROS_ID) {
         return (
-            new MessageActionRow().addComponents(
-                new MessageButton().setCustomId(BUTTON_GET_VOYAGE_ROUTE_ID).setLabel(BUTTON_GET_VOYAGE_ROUTE_LABEL).setStyle(buttonStyles.BLUE).setDisabled(true),
-                new MessageButton().setCustomId(BUTTON_EXPORT_MACROS_ID).setLabel(BUTTON_EXPORT_MACROS_LABEL).setStyle(buttonStyles.GREEN).setDisabled(true),
-                new MessageButton().setCustomId(BUTTON_DELETE_MACROS_ID).setLabel(BUTTON_DELETE_MACROS_LABEL).setStyle(buttonStyles.RED).setDisabled(false),
-                new MessageButton().setCustomId(BUTTON_FINISH_TASK_ID).setLabel(BUTTON_FINISH_TASK_LABEL).setStyle(buttonStyles.RED),
+            new ActionRowBuilder().addComponents(
+                new ButtonBuilder().setCustomId(BUTTON_GET_VOYAGE_ROUTE_ID).setLabel(BUTTON_GET_VOYAGE_ROUTE_LABEL).setStyle(buttonStyles.BLUE).setDisabled(true),
+                new ButtonBuilder().setCustomId(BUTTON_EXPORT_MACROS_ID).setLabel(BUTTON_EXPORT_MACROS_LABEL).setStyle(buttonStyles.GREEN).setDisabled(true),
+                new ButtonBuilder().setCustomId(BUTTON_DELETE_MACROS_ID).setLabel(BUTTON_DELETE_MACROS_LABEL).setStyle(buttonStyles.RED).setDisabled(false),
+                new ButtonBuilder().setCustomId(BUTTON_FINISH_TASK_ID).setLabel(BUTTON_FINISH_TASK_LABEL).setStyle(buttonStyles.RED),
             )
         );
     };
