@@ -27,8 +27,8 @@ import { dateUtil } from "../../utils/commonUtils.js";
     if (customId === EMBED_NO_SCHEDULES_ID) {
         return (
             state.embed.setDescription(
-                `**本日のスケジュールはありません。(現在時刻：${`${dateUtil.Hours}:${dateUtil.CustomFormat.mm}`})
-                \n★) 次回航路選択可能時間：${`${dateUtil.Year}/${dateUtil.Month}/${dateUtil.Date} 00:00 ～`}
+                `**本日のスケジュールはありません。(現在時刻：${`${dateUtil().getHours}:${dateUtil().getCustomFormat.mm}`})
+                \n★) 次回航路選択可能時間：${`${dateUtil().getYear}/${dateUtil().getMonth}/${dateUtil().getDate} 00:00 ～`}
                 **`
             )
         );

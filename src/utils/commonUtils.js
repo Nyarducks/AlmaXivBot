@@ -73,15 +73,17 @@ export const buttonStyles = {
 // 例：new Date('2022-01-01T00:00:00');
 // 返り値：Sat Jan 01 2022 00:00:00 GMT+0900 (Japan Standard Time)
 export const MONTH_OFFSET = 1;
-export const dateUtil = {
-    Year: new Date().getFullYear(),
-    Month: new Date().getMonth() + 1,
-    Date: new Date().getDate(),
-    Hours: new Date().getHours(),
-    Minutes: new Date().getMinutes(),
-    Seconds: new Date().getSeconds(),
-    CustomFormat: {
-        mm: (`0${new Date().getMinutes()}`).slice(-2).toString(),
-        yyyymmdd: `${new Date().getFullYear()}${new Date().getMonth() + 1}${new Date().getDate()}`.toString(),
-    },
+export const dateUtil = () => {
+    return {
+        getYear: new Date().getFullYear(),
+        getMonth: new Date().getMonth() + 1,
+        getDate: new Date().getDate(),
+        getHours: new Date().getHours(),
+        getMinutes: new Date().getMinutes(),
+        getSeconds: new Date().getSeconds(),
+        getCustomFormat: {
+            mm: (`0${new Date().getMinutes()}`).slice(-2).toString(),
+            yyyymmdd: `${new Date().getFullYear()}${new Date().getMonth() + 1}${new Date().getDate()}`.toString(),
+        },
+    }
 };
