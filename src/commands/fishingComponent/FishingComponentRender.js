@@ -90,6 +90,7 @@ export const callGetVoyageSchedulesEvent = async (interaction, buttonClickEvent,
      * 埋め込みメッセージを削除する
      */
     if (!eventCollector.ended) eventCollector.stop();
+    if (state.oceanFishing.macroObject !== undefined) await state.oceanFishing.macroObject.delete();
     await interaction.deleteReply();
     if (state.logger) console.info('callTimeoutEvent[end]');
 };
